@@ -1,101 +1,21 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect} from "react";
+import {MatrixContext} from "../Contexts/MatrixContext";
+import {PlayerContext, PlayerContextProvider} from "../Contexts/PlayerContext";
+import { ActiveContext } from "../Contexts/ActiveContext";
 
-const Matrix = ({ matrix, player, setPlayer }) => {
-  const [active, setActive] = useState(null);
+const Matrix = () => {
+  const {matrix, setMatrix} = useContext(MatrixContext)
+  const {player, setPlayer} = useContext(PlayerContext)
+  const {active, setActive} = useContext(ActiveContext)
+  // const [active, setActive] = useState(null);
 
-  //  winner tracking
-  const [nestedWinner, setNestedWinner] = useState({
-    winner00: null,
-    winner01: null,
-    winner02: null,
-    winner10: null,
-    winner11: null,
-    winner12: null,
-    winner20: null,
-    winner21: null,
-    winner22: null,
-  });
+  // useEffect(() => {
+  //   console.log('Matrix Component is re-rendered!');
+  //   console.log(`useEffect matrix[0][0][0][0] = ${matrix[0][0][0][0]}`)
+  // });
 
-  //mark winners
-  function markWinner(winner, setNestedWinner) {
-    let winnerCell = `winner${k}${l}`;
-    switch (winnerCell) {
-      case "winner00":
-        setNestedWinner({
-          ...nestedWinner,
-          winner00: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner01":
-        setNestedWinner({
-          ...nestedWinner,
-          winner01: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner02":
-        setNestedWinner({
-          ...nestedWinner,
-          winner02: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner10":
-        setNestedWinner({
-          ...nestedWinner,
-          winner10: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner11":
-        setNestedWinner({
-          ...nestedWinner,
-          winner11: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner12":
-        setNestedWinner({
-          ...nestedWinner,
-          winner12: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner20":
-        setNestedWinner({
-          ...nestedWinner,
-          winner20: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner21":
-        setNestedWinner({
-          ...nestedWinner,
-          winner21: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-
-      case "winner22":
-        setNestedWinner({
-          ...nestedWinner,
-          winner22: winner,
-        });
-        console.log(`${winnerCell} won by player ${player}`);
-        break;
-      default:
-        console.log("No winner matches");
-    }
-  }
+  
 
   // click Handler
   const handleClick = (e) => {
@@ -105,12 +25,20 @@ const Matrix = ({ matrix, player, setPlayer }) => {
 
     if (
       player != null &&
-      matrix[i][j][k][l].value === null &&
+      matrix[i][j][k][l] === null &&
       (active === null || active === id[0] + id[1])
     ) {
       // store in data matrix.
-      matrix[i][j][k][l].value = player
-      console.log(`0th column ${matrix[i][j][k][0].value} ${typeof matrix[i][j][k][0].value}`)
+      setMatrix((prev)=> {
+          prev[i][j][k][l] = player;
+          console.log(matrix[i][j][k][l])
+          return prev;
+        }
+      )
+      // console.log(`outside ${matrix[i][j][k][l]}`)
+      // console.log(`outside matrix[0][0][0][0] : ${matrix[0][0][0][0]}`)
+
+      
 
       // Swap players and fill cell
       if (player === 1) {
@@ -121,81 +49,9 @@ const Matrix = ({ matrix, player, setPlayer }) => {
         setPlayer(1);
       }
 
-      // check nested matrix winner
-      let winner = null;
-      let diagonal = false;
-      let q;
-      if (k === l || (k === 2 && l === 0) || (k === 0 && l === 2))
-        diagonal = true;
-
-      let checkPlayer = null;
-      // check row
-      for (q = 0; q < 3; q++) {
-        if (matrix[i][j][k][q].value === null){
-          console.log(`row check if 1`)
-          break;
-        } 
-        if (checkPlayer === null) {
-          console.log(`row check if 2`)
-          checkPlayer = matrix[i][j][k][q].value;
-        } 
-        else if (checkPlayer != matrix[i][j][k][q].value) {
-          console.log(`row check else if part`)
-          break;
-        } 
-      }
-      if (q >= 3) {
-        console.log(`q>=3 check`)
-        winner = checkPlayer;
-        markWinner(winner, setNestedWinner);
-        console.log(`From check row ${winnerCell} won by player ${player}`);
-      }
-
-      // check col
-      checkPlayer = null;
-      for (q = 0; q < 3; q++) {
-        if (matrix[i][j][q][l].value === null) break;
-        if (checkPlayer === null) checkPlayer = matrix[i][j][q][l].value;
-        else if (checkPlayer != matrix[i][j][q][l].value) break;
-      }
-      if (q >= 3) {
-        winner = checkPlayer;
-        markWinner(winner, setNestedWinner);
-        console.log(`From check col ${winnerCell} won by player ${player}`);
-      }
-
-      // check diagonal
-      if (diagonal === true) {
-        // top left to bottom right diagonal
-        checkPlayer = null;
-        for (q = 0; q < 3; q++) {
-          if (matrix[i][j][q][q].value === null) break;
-          if (checkPlayer === null) checkPlayer = matrix[i][j][q][q].value;
-          else if (checkPlayer != matrix[i][j][q][q].value) break;
-        }
-        if (q >= 3) {
-          winner = checkPlayer;
-          markWinner(winner, setNestedWinner);
-          console.log(`From check diag1 ${winnerCell} won by player ${player}`);
-        }
-
-        // bottom left to top right diagonal
-        checkPlayer = null;
-        for (q = 0; q < 3; q++) {
-          if (matrix[i][j][2 - q][q].value === null) break;
-          if (checkPlayer === null) checkPlayer = matrix[i][j][2 - q][q].value;
-          else if (checkPlayer != matrix[i][j][2 - q][q].value) break;
-        }
-        if (q >= 3) {
-          winner = checkPlayer;
-          markWinner(winner, setNestedWinner);
-          console.log(`From check diag2 ${winnerCell} won by player ${player}`);
-        }
-      }
-
       // set the new active cell
       let newActive = id[2] + id[3];
-      setActive((prev) => prev = newActive);
+      setActive((prev) => (prev = newActive));
     }
   };
 
