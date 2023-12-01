@@ -2,16 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { MatrixContext, MatrixContextProvider } from "./Contexts/MatrixContext";
-import { PlayerContext, PlayerContextProvider } from "./Contexts/PlayerContext";
+import { MatrixContextProvider } from "./Contexts/MatrixContext";
+import { PlayerContextProvider } from "./Contexts/PlayerContext";
 import { ActiveContextProvider } from "./Contexts/ActiveContext.jsx";
+import { NestedWinnerContextProvider } from "./Contexts/NestedWinnerContext.jsx";
+import { CompleteFillContextProvider } from "./Contexts/CompleteFillContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MatrixContextProvider>
       <PlayerContextProvider>
         <ActiveContextProvider>
-          <App />
+          <NestedWinnerContextProvider>
+            <CompleteFillContextProvider>
+              <App />
+            </CompleteFillContextProvider>
+          </NestedWinnerContextProvider>
         </ActiveContextProvider>
       </PlayerContextProvider>
     </MatrixContextProvider>

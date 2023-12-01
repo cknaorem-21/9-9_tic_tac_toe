@@ -3,19 +3,16 @@ import { useState, useContext, useEffect} from "react";
 import {MatrixContext} from "../Contexts/MatrixContext";
 import {PlayerContext, PlayerContextProvider} from "../Contexts/PlayerContext";
 import { ActiveContext } from "../Contexts/ActiveContext";
+import { NestedWinnerContext } from "../Contexts/NestedWinnerContext";
+import { checkWinner, checkCompletelyFilled } from "../Utils/helpers";
+import { CompleteFillContext } from "../Contexts/CompleteFillContext";
 
 const Matrix = () => {
   const {matrix, setMatrix} = useContext(MatrixContext)
   const {player, setPlayer} = useContext(PlayerContext)
   const {active, setActive} = useContext(ActiveContext)
-  // const [active, setActive] = useState(null);
-
-  // useEffect(() => {
-  //   console.log('Matrix Component is re-rendered!');
-  //   console.log(`useEffect matrix[0][0][0][0] = ${matrix[0][0][0][0]}`)
-  // });
-
-  
+  const {nestedWinner, setNestedWinner} = useContext(NestedWinnerContext)
+  const {cellFilled, setCellFilled} = useContext(CompleteFillContext)
 
   // click Handler
   const handleClick = (e) => {
@@ -28,19 +25,20 @@ const Matrix = () => {
       matrix[i][j][k][l] === null &&
       (active === null || active === id[0] + id[1])
     ) {
-      // store in data matrix.
+      // save data in matrix.
       setMatrix((prev)=> {
           prev[i][j][k][l] = player;
-          console.log(matrix[i][j][k][l])
           return prev;
         }
       )
-      // console.log(`outside ${matrix[i][j][k][l]}`)
-      // console.log(`outside matrix[0][0][0][0] : ${matrix[0][0][0][0]}`)
 
+      // check nested matrix winner and mark if there is any winner
+      checkWinner(id, matrix, nestedWinner, setNestedWinner);
       
+      // check if the cell is completely filled if filled mark it.
+      checkCompletelyFilled(id, matrix, cellFilled, setCellFilled);
 
-      // Swap players and fill cell
+      // Swap players and fill cell value
       if (player === 1) {
         e.target.innerHTML = "1";
         setPlayer(2);
@@ -62,7 +60,7 @@ const Matrix = () => {
         {/*Cell*/}
         <div
           id="00"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "00"
               ? "border-blue-700"
               : "border-red-600"
@@ -120,7 +118,7 @@ const Matrix = () => {
         </div>
         <div
           id="01"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "01"
               ? "border-blue-700"
               : "border-red-600"
@@ -178,7 +176,7 @@ const Matrix = () => {
         </div>
         <div
           id="02"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "02"
               ? "border-blue-700"
               : "border-red-600"
@@ -236,7 +234,7 @@ const Matrix = () => {
         </div>
         <div
           id="10"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "10"
               ? "border-blue-700"
               : "border-red-600"
@@ -294,7 +292,7 @@ const Matrix = () => {
         </div>
         <div
           id="11"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "11"
               ? "border-blue-700"
               : "border-red-600"
@@ -352,7 +350,7 @@ const Matrix = () => {
         </div>
         <div
           id="12"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "12"
               ? "border-blue-700"
               : "border-red-600"
@@ -410,7 +408,7 @@ const Matrix = () => {
         </div>
         <div
           id="20"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "20"
               ? "border-blue-700"
               : "border-red-600"
@@ -468,7 +466,7 @@ const Matrix = () => {
         </div>
         <div
           id="21"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "21"
               ? "border-blue-700"
               : "border-red-600"
@@ -526,7 +524,7 @@ const Matrix = () => {
         </div>
         <div
           id="22"
-          className={`bg-green-300 w-[188px] h-[188px] border-[4px] ${
+          className={`bg-purple-500 w-[188px] h-[188px] border-[4px] ${
             active === null || active != "22"
               ? "border-blue-700"
               : "border-red-600"
