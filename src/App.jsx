@@ -18,10 +18,10 @@ function App() {
       {/* Toss */}
       <div className="bg-black text-blue-900 flex justify-center items-center h-screen">
         <div className="">
-            <button className="border-2 border-green-600" onClick={handleToss}>
-              Toss
-            </button>
-          </div>
+          <button className="border-2 border-green-600" onClick={handleToss}>
+            Toss
+          </button>
+        </div>
         <Matrix></Matrix>
       </div>
     </>
