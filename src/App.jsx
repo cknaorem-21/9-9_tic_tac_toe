@@ -1,7 +1,9 @@
 import Matrix from "./Components/Matrix";
+import StatusMatrix from "./Components/StatusMatrix";
 import { useState, useEffect, useContext } from "react";
 import { MatrixContext, MatrixContextProvider } from "./Contexts/MatrixContext";
 import { PlayerContext, PlayerContextProvider } from "./Contexts/PlayerContext";
+
 
 function App() {
   const { player, setPlayer } = useContext(PlayerContext);
@@ -23,6 +25,7 @@ function App() {
           </button>
         </div>
         <Matrix></Matrix>
+        <StatusMatrix></StatusMatrix>
       </div>
     </>
   );
