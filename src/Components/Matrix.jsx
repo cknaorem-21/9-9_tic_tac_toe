@@ -4,19 +4,26 @@ import {MatrixContext} from "../Contexts/MatrixContext";
 import {PlayerContext, PlayerContextProvider} from "../Contexts/PlayerContext";
 import { ActiveContext } from "../Contexts/ActiveContext";
 import { NestedWinnerContext } from "../Contexts/NestedWinnerContext";
-import { checkWinner, checkCompletelyFilled } from "../Utils/helpers";
+import { checkNestedWinner, checkCompletelyFilled, checkCompleteWinner } from "../Utils/helpers";
 import { CompleteFillContext } from "../Contexts/CompleteFillContext";
+import { WinnerContext } from "../Contexts/WinnerContext";
 
 const Matrix = () => {
   const {matrix, setMatrix} = useContext(MatrixContext)
   const {player, setPlayer} = useContext(PlayerContext)
   const {active, setActive} = useContext(ActiveContext)
   const {nestedWinner, setNestedWinner} = useContext(NestedWinnerContext)
+  const {winner, setWinner} = useContext(WinnerContext)
   const {cellFilled, setCellFilled} = useContext(CompleteFillContext)
+
+  useEffect(()=>{
+    console.log(`Game won by : ${winner}`);
+  }, [winner, setWinner]);
 
   // click Handler
   const handleClick = (e) => {
     const id = e.target.id;
+
     // extract index into array of numbers.
     const [i, j, k, l] = Array.from(id, (number) => parseInt(number));
 
@@ -25,6 +32,9 @@ const Matrix = () => {
       matrix[i][j][k][l] === null &&
       (active === null || active === id[0] + id[1])
     ) {
+      console.log(`${id} clicked`);
+      console.log(nestedWinner);
+      
       // save data in matrix.
       setMatrix((prev)=> {
           prev[i][j][k][l] = player;
@@ -33,10 +43,13 @@ const Matrix = () => {
       )
 
       // check nested matrix winner and mark if there is any winner
-      checkWinner(id, matrix, nestedWinner, setNestedWinner);
+      checkNestedWinner(id, matrix, nestedWinner, setNestedWinner);
       
       // check if the cell is completely filled if filled mark it.
       checkCompletelyFilled(id, matrix, cellFilled, setCellFilled);
+      
+      //check Winner of the game
+      checkCompleteWinner(id, matrix, nestedWinner, winner, setWinner);  
 
       // Swap players and fill cell value
       if (player === 1) {

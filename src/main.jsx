@@ -7,6 +7,7 @@ import { PlayerContextProvider } from "./Contexts/PlayerContext";
 import { ActiveContextProvider } from "./Contexts/ActiveContext.jsx";
 import { NestedWinnerContextProvider } from "./Contexts/NestedWinnerContext.jsx";
 import { CompleteFillContextProvider } from "./Contexts/CompleteFillContext.jsx";
+import { WinnerContextProvider } from "./Contexts/WinnerContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <ActiveContextProvider>
           <NestedWinnerContextProvider>
             <CompleteFillContextProvider>
-              <App />
+              <WinnerContextProvider>
+                <App />
+              </WinnerContextProvider>
             </CompleteFillContextProvider>
           </NestedWinnerContextProvider>
         </ActiveContextProvider>

@@ -1,7 +1,5 @@
 const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
     let winnerCell = 'winner' + id[0] + id[1];
-    // console.log(`${winnerCell} won by player ${winner}`)
-    // console.log()
     switch (winnerCell) {
         case "winner00":
             if (nestedWinner.winner00 === null)
@@ -9,9 +7,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner00: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
-            // setTimeout(()=>{console.log(`from switch case ${nestedWinner.winner00}`)},0)
-
             break;
 
         case "winner01":
@@ -20,7 +15,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner01: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
 
         case "winner02":
@@ -29,7 +23,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner02: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
 
         case "winner10":
@@ -38,7 +31,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner10: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
 
         case "winner11":
@@ -47,7 +39,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner11: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
 
         case "winner12":
@@ -56,7 +47,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner12: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
 
         case "winner20":
@@ -65,7 +55,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner20: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
 
         case "winner21":
@@ -74,7 +63,6 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner21: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
 
         case "winner22":
@@ -83,14 +71,13 @@ const markWinner = (winner, id, nestedWinner, setNestedWinner) => {
                     ...nestedWinner,
                     winner22: winner,
                 });
-            console.log(`${winnerCell} won by player ${winner}`);
             break;
         default:
-            console.log("No winner matches");
+        console.log("No winner matches");
     }
 }
 
-export const checkWinner = (id, matrix, nestedWinner, setNestedWinner) => {
+export const checkNestedWinner = (id, matrix, nestedWinner, setNestedWinner) => {
     // extract index into array of numbers.
     const [i, j, k, l] = Array.from(id, (number) => parseInt(number));
 
@@ -105,24 +92,15 @@ export const checkWinner = (id, matrix, nestedWinner, setNestedWinner) => {
     // check row
     let checkPlayer = null;
     for (q = 0; q < 3; q++) {
-        if (matrix[i][j][k][q] === null) {
-            console.log(`row check if 1`)
-            break;
-        }
-        if (checkPlayer === null) {
-            console.log(`row check if 2`)
+        if (matrix[i][j][k][q] === null) break;
+        if (checkPlayer === null) 
             checkPlayer = matrix[i][j][k][q];
-        }
-        else if (checkPlayer != matrix[i][j][k][q]) {
-            console.log(`row check else if part`)
-            break;
-        }
+        else if (checkPlayer != matrix[i][j][k][q]) break;
     }
     if (q >= 3) {
-        console.log(`q>=3 check`)
         winner = checkPlayer;
         markWinner(winner, id, nestedWinner, setNestedWinner);
-        console.log(`From check row`);
+        return;
     }
 
     // check col
@@ -135,7 +113,7 @@ export const checkWinner = (id, matrix, nestedWinner, setNestedWinner) => {
     if (q >= 3) {
         winner = checkPlayer;
         markWinner(winner, id, nestedWinner, setNestedWinner);
-        console.log(`From check col`);
+        return;
     }
 
     // check diagonal
@@ -150,7 +128,7 @@ export const checkWinner = (id, matrix, nestedWinner, setNestedWinner) => {
         if (q >= 3) {
             winner = checkPlayer;
             markWinner(winner, id, nestedWinner, setNestedWinner);
-            console.log(`From check diag1`);
+            return;
         }
 
         // bottom left to top right diagonal
@@ -163,7 +141,7 @@ export const checkWinner = (id, matrix, nestedWinner, setNestedWinner) => {
         if (q >= 3) {
             winner = checkPlayer;
             markWinner(winner, id, nestedWinner, setNestedWinner);
-            console.log(`From check diag2`);
+            return;
         }
     }
 }
@@ -192,67 +170,131 @@ export const checkCompletelyFilled = (id, matrix, cellFilled, setCellFilled) => 
                     ...cellFilled,
                     cell00: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell01':
                 setCellFilled({
                     ...cellFilled,
                     cell01: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell02':
                 setCellFilled({
                     ...cellFilled,
                     cell02: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell10':
                 setCellFilled({
                     ...cellFilled,
                     cell10: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell11':
                 setCellFilled({
                     ...cellFilled,
                     cell11: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell12':
                 setCellFilled({
                     ...cellFilled,
                     cell12: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell20':
                 setCellFilled({
                     ...cellFilled,
                     cell20: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell21':
                 setCellFilled({
                     ...cellFilled,
                     cell21: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             case 'cell22':
                 setCellFilled({
                     ...cellFilled,
                     cell22: true
                 });
-                console.log(`${cellXY} completely filled`)
                 break;
             default:
                 console.log("No cell matched in cases")
         }
 
+    }
+}
+
+// CHECK WINNER OF THE GAME
+export const checkCompleteWinner = (id, matrix, nestedWinner, winner, setWinner) => {
+    const [i, j, k, l] = Array.from(id, (number) => parseInt(number));
+    const clickedKey = 'winner' + id[0] + id[1];
+
+    if (nestedWinner[clickedKey] === null) return;
+
+    let winner2 = null;
+    let diagonal = false;
+    let q;
+    if (i === j || (i === 2 && j === 0) || (i === 0 && j === 2))
+        diagonal = true;
+
+    // check row
+    let checkPlayer = null;
+    for (q = 0; q < 3; q++) {
+        const checkKey = 'winner' + id[0] + q.toString();
+        if (nestedWinner[checkKey] === null) break;
+        if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+        else if (checkPlayer != nestedWinner[checkKey]) break;
+    }
+    if (q >= 3) {
+        winner2 = checkPlayer;
+        setWinner(winner2);
+        return;
+    }
+
+    // check col
+    checkPlayer = null;
+    for (q = 0; q < 3; q++) {
+        const checkKey = 'winner' + q.toString() + id[1];
+        if (nestedWinner[checkKey] === null) break;
+        if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+        else if (checkPlayer != nestedWinner[checkKey]) break;
+    }
+    if (q >= 3) {
+        winner2 = checkPlayer;
+        setWinner(winner2);
+        return;
+    }
+
+    // check diagonal
+    if (diagonal === true) {
+        // top left to bottom right diagonal
+        checkPlayer = null;
+        for (q = 0; q < 3; q++) {
+            const checkKey = 'winner' + q.toString() + q.toString();
+            if (nestedWinner[checkKey] === null) break;
+            if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+            else if (checkPlayer != nestedWinner[checkKey]) break;
+        }
+        if (q >= 3) {
+            winner2 = checkPlayer;
+            setWinner(winner2);
+            return;
+        }
+
+        // bottom left to top right diagonal
+        checkPlayer = null;
+        for (q = 0; q < 3; q++) {
+            const checkKey = 'winner' + (2 - q).toString() + q.toString();
+            if (nestedWinner[checkKey] === null) break;
+            if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+            else if (checkPlayer != nestedWinner[checkKey]) break;
+        }
+        if (q >= 3) {
+            winner2 = checkPlayer;
+            setWinner(winner2);
+            return;
+        }
     }
 }
