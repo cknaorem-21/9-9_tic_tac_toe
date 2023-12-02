@@ -48,15 +48,19 @@ const Matrix = () => {
       }
 
       // set the new active cell
-      let newActive = id[2] + id[3];
-      setActive((prev) => (prev = newActive));
+      let newActiveCell = id[2] + id[3];
+      let key = 'cell' + newActiveCell;
+      // if directed to a completely filled cell
+      if(cellFilled[key] === true) setActive(null)
+      else setActive((prev) => (prev = newActiveCell)) 
+        
     }
   };
 
   return (
     <>
       {/*matrix */}
-      <div className="flex flex-wrap w-[564px] h-[564px]">
+      <div className={`flex flex-wrap w-[564px] h-[564px] ${active===null && player!=null? "border-red-600 border-[6px] box-content":""}`}>
         {/*Cell*/}
         <div
           id="00"
