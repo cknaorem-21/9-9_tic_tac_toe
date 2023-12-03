@@ -4,7 +4,10 @@ import {MatrixContext} from "../Contexts/MatrixContext";
 import {PlayerContext, PlayerContextProvider} from "../Contexts/PlayerContext";
 import { ActiveContext } from "../Contexts/ActiveContext";
 import { NestedWinnerContext } from "../Contexts/NestedWinnerContext";
-import { checkNestedWinner, checkCompletelyFilled, checkCompleteWinner } from "../Utils/helpers";
+// import { checkNestedWinner, checkCompletelyFilled, checkCompleteWinner } from "../Utils/helpers";
+import { checkNestedWinner } from "../Utils/HelperFunctions/checkNestedWinner";
+import { checkCompletelyFilled } from "../Utils/HelperFunctions/checkCompletelyFilled";
+import { checkCompleteWinner } from "../Utils/HelperFunctions/checkCompleteWinner";
 import { CompleteFillContext } from "../Contexts/CompleteFillContext";
 import { WinnerContext } from "../Contexts/WinnerContext";
 
@@ -15,10 +18,6 @@ const Matrix = () => {
   const {nestedWinner, setNestedWinner} = useContext(NestedWinnerContext)
   const {winner, setWinner} = useContext(WinnerContext)
   const {cellFilled, setCellFilled} = useContext(CompleteFillContext)
-
-  useEffect(()=>{
-    console.log(`Game won by : ${winner}`);
-  }, [winner, setWinner]);
 
   // click Handler
   const handleClick = (e) => {
@@ -33,7 +32,7 @@ const Matrix = () => {
       (active === null || active === id[0] + id[1])
     ) {
       console.log(`${id} clicked`);
-      console.log(nestedWinner);
+      // console.log(nestedWinner);
       
       // save data in matrix.
       setMatrix((prev)=> {
@@ -43,13 +42,21 @@ const Matrix = () => {
       )
 
       // check nested matrix winner and mark if there is any winner
-      checkNestedWinner(id, matrix, nestedWinner, setNestedWinner);
+      let nestedWinnerPlayer = checkNestedWinner(id, matrix, nestedWinner, setNestedWinner);
+      // console.log(nestedWinner);
+      // console.log(nestedWinnerPlayer);
       
       // check if the cell is completely filled if filled mark it.
       checkCompletelyFilled(id, matrix, cellFilled, setCellFilled);
       
       //check Winner of the game
-      checkCompleteWinner(id, matrix, nestedWinner, winner, setWinner);  
+      checkCompleteWinner(id, matrix, nestedWinner, winner, setWinner, nestedWinnerPlayer);  
+
+      // if(winnerFound) {
+      //   alert(`Game won by : ${winner}`);
+      //   console.log(`Game won by : ${winner}`)
+      // }
+        
 
       // Swap players and fill cell value
       if (player === 1) {
