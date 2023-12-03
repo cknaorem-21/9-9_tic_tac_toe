@@ -15,14 +15,22 @@ const checkCompleteWinner = (id, matrix, nestedWinner, winner, setWinner, nested
     let checkPlayer = null;
     for (q = 0; q < 3; q++) {
         const checkKey = 'winner' + id[0] + q.toString();
-        if(checkKey === clickedKey && nestedWinnerPlayer!=null) checkPlayer = nestedWinnerPlayer;
-        else if (nestedWinner[checkKey] === null) break;
-        if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
-        else if (checkPlayer != nestedWinner[checkKey] && checkPlayer!=nestedWinnerPlayer) break;
+
+        // nestedWinner[checkKey] may not be updated as useState is asynshronous.
+        if (checkKey === clickedKey) {
+            if (nestedWinnerPlayer === null) break;
+            if (checkPlayer === null) checkPlayer = nestedWinnerPlayer
+            else if (checkPlayer != nestedWinnerPlayer) break;
+        }
+        else {
+            if (nestedWinner[checkKey] === null) break;
+            if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+            else if (checkPlayer != nestedWinner[checkKey]) break;
+        }
     }
     if (q >= 3) {
         winner2 = checkPlayer;
-        setWinner((prev)=>prev=winner2);
+        setWinner((prev) => prev = winner2);
         return;
     }
 
@@ -30,14 +38,21 @@ const checkCompleteWinner = (id, matrix, nestedWinner, winner, setWinner, nested
     checkPlayer = null;
     for (q = 0; q < 3; q++) {
         const checkKey = 'winner' + q.toString() + id[1];
-        if(checkKey === clickedKey && nestedWinnerPlayer!=null) checkPlayer = nestedWinnerPlayer;
-        else if (nestedWinner[checkKey] === null) break;
-        if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
-        else if (checkPlayer != nestedWinner[checkKey] && checkPlayer!=nestedWinnerPlayer) break;
+        // nestedWinner[checkKey] may not be updated as useState is asynshronous.
+        if (checkKey === clickedKey) {
+            if (nestedWinnerPlayer === null) break;
+            if (checkPlayer === null) checkPlayer = nestedWinnerPlayer
+            else if (checkPlayer != nestedWinnerPlayer) break;
+        }
+        else {
+            if (nestedWinner[checkKey] === null) break;
+            if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+            else if (checkPlayer != nestedWinner[checkKey]) break;
+        }
     }
     if (q >= 3) {
         winner2 = checkPlayer;
-        setWinner((prev)=>prev=winner2);
+        setWinner((prev) => prev = winner2);
         return;
     }
 
@@ -47,14 +62,21 @@ const checkCompleteWinner = (id, matrix, nestedWinner, winner, setWinner, nested
         checkPlayer = null;
         for (q = 0; q < 3; q++) {
             const checkKey = 'winner' + q.toString() + q.toString();
-            if(checkKey === clickedKey && nestedWinnerPlayer!=null) checkPlayer = nestedWinnerPlayer;
-            else if (nestedWinner[checkKey] === null) break;
-            if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
-            else if (checkPlayer != nestedWinner[checkKey] && checkPlayer!=nestedWinnerPlayer) break;
+            // nestedWinner[checkKey] may not be updated as useState is asynshronous.
+            if (checkKey === clickedKey) {
+                if (nestedWinnerPlayer === null) break;
+                if (checkPlayer === null) checkPlayer = nestedWinnerPlayer
+                else if (checkPlayer != nestedWinnerPlayer) break;
+            }
+            else {
+                if (nestedWinner[checkKey] === null) break;
+                if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+                else if (checkPlayer != nestedWinner[checkKey]) break;
+            }
         }
         if (q >= 3) {
             winner2 = checkPlayer;
-            setWinner((prev)=>prev=winner2);
+            setWinner((prev) => prev = winner2);
             return;
         }
 
@@ -62,17 +84,24 @@ const checkCompleteWinner = (id, matrix, nestedWinner, winner, setWinner, nested
         checkPlayer = null;
         for (q = 0; q < 3; q++) {
             const checkKey = 'winner' + (2 - q).toString() + q.toString();
-            if(checkKey === clickedKey && nestedWinnerPlayer!=null) checkPlayer = nestedWinnerPlayer;
-            else if (nestedWinner[checkKey] === null) break;
-            if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
-            else if (checkPlayer != nestedWinner[checkKey] && checkPlayer!=nestedWinnerPlayer) break;
+            // nestedWinner[checkKey] may not be updated as useState is asynshronous.
+            if (checkKey === clickedKey) {
+                if (nestedWinnerPlayer === null) break;
+                if (checkPlayer === null) checkPlayer = nestedWinnerPlayer
+                else if (checkPlayer != nestedWinnerPlayer) break;
+            }
+            else {
+                if (nestedWinner[checkKey] === null) break;
+                if (checkPlayer === null) checkPlayer = nestedWinner[checkKey];
+                else if (checkPlayer != nestedWinner[checkKey]) break;
+            }
         }
         if (q >= 3) {
             winner2 = checkPlayer;
-            setWinner((prev)=>prev=winner2);
+            setWinner((prev) => prev = winner2);
             return;
         }
     }
 }
 
-export {checkCompleteWinner};
+export { checkCompleteWinner };

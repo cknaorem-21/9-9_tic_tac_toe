@@ -4,7 +4,6 @@ import {MatrixContext} from "../Contexts/MatrixContext";
 import {PlayerContext, PlayerContextProvider} from "../Contexts/PlayerContext";
 import { ActiveContext } from "../Contexts/ActiveContext";
 import { NestedWinnerContext } from "../Contexts/NestedWinnerContext";
-// import { checkNestedWinner, checkCompletelyFilled, checkCompleteWinner } from "../Utils/helpers";
 import { checkNestedWinner } from "../Utils/HelperFunctions/checkNestedWinner";
 import { checkCompletelyFilled } from "../Utils/HelperFunctions/checkCompletelyFilled";
 import { checkCompleteWinner } from "../Utils/HelperFunctions/checkCompleteWinner";
@@ -21,9 +20,10 @@ const Matrix = () => {
 
   // click Handler
   const handleClick = (e) => {
+    if(winner!=null) return;
     const id = e.target.id;
 
-    // extract index into array of numbers.
+    // extract index into numbers.
     const [i, j, k, l] = Array.from(id, (number) => parseInt(number));
 
     if (
@@ -31,7 +31,7 @@ const Matrix = () => {
       matrix[i][j][k][l] === null &&
       (active === null || active === id[0] + id[1])
     ) {
-      console.log(`${id} clicked`);
+      console.log(`${id} clicked by player ${player}`);
       // console.log(nestedWinner);
       
       // save data in matrix.
@@ -43,20 +43,14 @@ const Matrix = () => {
 
       // check nested matrix winner and mark if there is any winner
       let nestedWinnerPlayer = checkNestedWinner(id, matrix, nestedWinner, setNestedWinner);
-      // console.log(nestedWinner);
-      // console.log(nestedWinnerPlayer);
+      console.log(`nestedWinnerPlayer ${nestedWinnerPlayer}`);
       
       // check if the cell is completely filled if filled mark it.
-      checkCompletelyFilled(id, matrix, cellFilled, setCellFilled);
+      let completelyFilled = checkCompletelyFilled(id, matrix, cellFilled, setCellFilled);
+      console.log(`completelyFilled ${completelyFilled}`);
       
       //check Winner of the game
       checkCompleteWinner(id, matrix, nestedWinner, winner, setWinner, nestedWinnerPlayer);  
-
-      // if(winnerFound) {
-      //   alert(`Game won by : ${winner}`);
-      //   console.log(`Game won by : ${winner}`)
-      // }
-        
 
       // Swap players and fill cell value
       if (player === 1) {
@@ -68,10 +62,11 @@ const Matrix = () => {
       }
 
       // set the new active cell
-      let newActiveCell = id[2] + id[3];
-      let key = 'cell' + newActiveCell;
+      let keyCell = 'cell' + id[2] + id[3];
+      let currCell = 'cell' + id[0] + id[1];
+
       // if directed to a completely filled cell
-      if(cellFilled[key] === true) setActive(null)
+      if(cellFilled[keyCell] === true || (keyCell === currCell && completelyFilled===true)) setActive(null)
       else setActive((prev) => (prev = newActiveCell)) 
         
     }
@@ -80,7 +75,7 @@ const Matrix = () => {
   return (
     <>
       {/*matrix */}
-      <div className={`flex flex-wrap w-[564px] h-[564px] ${active===null && player!=null? "border-red-600 border-[6px] box-content":""}`}>
+      <div className={`flex flex-wrap w-[564px] h-[564px] ${active===null && player!=null? "border-red-600 border-[6px] box-content":""} ${winner!=null? "opacity-80": ""}`}>
         {/*Cell*/}
         <div
           id="00"

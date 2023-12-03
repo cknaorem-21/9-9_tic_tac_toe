@@ -21,60 +21,62 @@ const checkCompletelyFilled = (id, matrix, cellFilled, setCellFilled) => {
                     ...cellFilled,
                     cell00: true
                 });
-                break;
+                return true;
             case 'cell01':
                 setCellFilled({
                     ...cellFilled,
                     cell01: true
                 });
-                break;
+                return true;
             case 'cell02':
                 setCellFilled({
                     ...cellFilled,
                     cell02: true
                 });
-                break;
+                return true;
             case 'cell10':
                 setCellFilled({
                     ...cellFilled,
                     cell10: true
                 });
-                break;
+                return true;
             case 'cell11':
                 setCellFilled({
                     ...cellFilled,
                     cell11: true
                 });
-                break;
+                return true;
             case 'cell12':
                 setCellFilled({
                     ...cellFilled,
                     cell12: true
                 });
-                break;
+                return true;
             case 'cell20':
                 setCellFilled({
                     ...cellFilled,
                     cell20: true
                 });
-                break;
+                return true;
             case 'cell21':
                 setCellFilled({
                     ...cellFilled,
                     cell21: true
                 });
-                break;
+                return true;
             case 'cell22':
                 setCellFilled({
                     ...cellFilled,
                     cell22: true
                 });
-                break;
+                return true;
             default:
                 console.log("No cell matched in cases")
         }
 
     }
+
+    return false;
 }
 
 export {checkCompletelyFilled};
