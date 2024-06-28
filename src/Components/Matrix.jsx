@@ -62,6 +62,7 @@ const Matrix = () => {
       }
 
       // set the new active cell
+      let newActiveCell = id[2] + id[3];
       let keyCell = 'cell' + id[2] + id[3];
       let currCell = 'cell' + id[0] + id[1];
 
